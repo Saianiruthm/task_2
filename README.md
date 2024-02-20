@@ -16,11 +16,12 @@ This project automates a workflow for collecting annotations from two annotators
 - Individual JSON files in `json_mismatch_file` (optional): Separate JSON files for each mismatched annotation.
 
 ## Files
-- `1_to_json.py`: Creates individual JSON files for each image in the `Input_images` folder.
+- `to_json.py`: Creates individual JSON files for each image in the `Input_images` folder.
 - `3_pre_main.py`: Sets up projects in Label Studio, registers storage for images, and imports tasks from JSON files.
 - `4_post_main.py`: Exports snapshots from both projects, compares annotations, and saves results to CSV and JSON.
 - `5_store_mismatch.py`: Creates individual JSON files for each mismatched annotation in a separate folder.
 - `6_import_mismatch.py`: (Optional) Deletes existing tasks and re-imports mismatched data into Label Studio projects.
+- `7_check_mismatched.py`: Compares annotations from a snapshot with prior mismatches and iteratively searches for a correct text among subsequent snapshots provided.
 - `main.py`: Contains common functions used throughout the scripts, such as project creation and task import.
 - `correct_annotations.csv`, `ids.txt`, `mismatched.json`, `project_1.json`, `project_2.json`: Files generated during the workflow.
 
@@ -34,3 +35,4 @@ This project automates a workflow for collecting annotations from two annotators
 7. Once annotations are complete, run `4_post_main.py`. This will compare annotations, save results, and create mismatch files if necessary.
 8. Optionally, you can use `5_store_mismatch.py` to create individual JSON files for each mismatch.
 9. Optionally, use `6_import_mismatch.py` to re-import mismatched data into Label Studio projects for further review or adjudication.
+10. Use `7_check_mismatched.py` to compare and resolve mismatches in annotations.

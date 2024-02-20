@@ -4,6 +4,8 @@ from label_studio_sdk import Client
 import time
 import os
 import requests
+from typing import List
+
 
 def register_local_folder(api_token, project, paths, titles):
     """
@@ -74,7 +76,7 @@ def import_tasks_from_json(project, folder_path):
             project.import_tasks([task])  # Import a single task at a time
 
 
-def compare_snapshots_and_save_correct_csv(snapshot1, snapshot2, correct_csv_file_path,mismatch_path):
+def compare_snapshots_and_save_correct_csv(snapshot1, snapshot2, correct_csv_file_path,incorrct_csv_file_path,mismatch_path):
     # Load annotations from snapshots
     with open(snapshot1, 'r') as file:
         annotations_annotator_1 = json.load(file)
@@ -84,6 +86,7 @@ def compare_snapshots_and_save_correct_csv(snapshot1, snapshot2, correct_csv_fil
     # Initialize lists to store correct and mismatched file paths
     correct_file_paths = []
     mismatched_file_paths = []
+    prime_match = []
 
     # Compare text annotations from both snapshots
     for ann1, ann2 in zip(annotations_annotator_1, annotations_annotator_2):
@@ -98,13 +101,18 @@ def compare_snapshots_and_save_correct_csv(snapshot1, snapshot2, correct_csv_fil
         else:
             # If there is a mismatch, add the file path to the mismatched list
             mismatched_file_paths.append([ann1['image']])
+            prime_match.append([ann1['image'], text1,text2])
 
     file_exists = os.path.isfile(correct_csv_file_path)
     # Save correct file paths and annotations to a CSV file
     with open(correct_csv_file_path, 'a' if file_exists else 'w' , newline='') as file:
         writer = csv.writer(file)
         writer.writerows(correct_file_paths)
-
+    # Save correct file paths and annotations to a CSV file
+    with open(incorrect_csv_file_path, 'w' , newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(prime_match)
+    
     # Save mismatched file paths to a JSON file
     mismatched_data = [{'file_path': path[0]} for path in mismatched_file_paths]
     with open(mismatch_path, 'w') as file:
@@ -112,3 +120,79 @@ def compare_snapshots_and_save_correct_csv(snapshot1, snapshot2, correct_csv_fil
 
     return mismatched_file_paths
 
+def compare_and_resolve_mismatches(snapshot1, correct_csv_file_path, incorrect_csv_file_path, mismatch_path):
+    """
+    Compares annotations from a snapshot with prior mismatches and iteratively searches
+    for a correct text among subsequent snapshots provided.
+
+    Args:
+        snapshot1 (str): Path to the first snapshot file (JSON format).
+        correct_csv_file_path (str): Path to the CSV file containing correct annotations.
+        incorrect_csv_file_path (str): Path to the CSV file containing prior mismatches.
+        mismatch_path (str): Path to the JSON file to store remaining mismatches.
+        
+    Returns:
+        list: A list of dictionaries containing information about unresolved mismatches,
+              including file path, all compared texts, and a flag indicating resolution.
+    """
+
+    # Load annotations from the first snapshot
+    with open(snapshot1, 'r') as file:
+        annotations_annotator_1 = json.load(file)
+
+    # Load prior mismatches from the CSV file
+    with open(incorrect_csv_file_path, 'r') as file:
+        reader = csv.reader(file)
+        prior_mismatches = list(reader)
+
+    # Initialize lists to store resolved and unresolved mismatches
+    resolved_mismatches = []
+    unresolved_mismatches = [{"file_path": path[0], "texts": path[1:]} for path in prior_mismatches]
+
+    # Iterate through subsequent snapshots, comparing with prior texts
+    with open(snapshot_path, 'r') as file:
+        annotations_current = json.load(file)
+
+    for i, mismatch in enumerate(unresolved_mismatches):
+        image_path = mismatch["file_path"]
+        mismatch_texts = mismatch["texts"]
+
+        # Extract current annotator's text
+        current_text = annotations_current[0]['transcription']
+
+        # Check if any existing mismatch text or the current text matches
+        is_resolved = any(text == current_text for text in mismatch_texts)
+
+        if is_resolved:
+            # Match found, add to resolved list and remove from unresolved
+            resolved_mismatches.append([image_path, current_text])
+            unresolved_mismatches.pop(i)
+        else:
+            mismatch_texts.append(current_text)
+
+            # Check if the image_path already exists in the CSV
+            with open(incorrect_csv_file_path, 'r') as file:
+                reader = csv.reader(file)
+                existing_rows = [row for row in reader if row[0] == image_path]
+
+            if existing_rows:
+                # Image path found, append the new text as a column
+                with open(incorrect_csv_file_path, 'a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([*existing_rows[0][1:], current_text])
+            else:
+                # Image path not found, create a new row
+                with open(incorrect_csv_file_path, 'a', newline='') as file:
+                    writer = csv.writer(file)
+                    writer.writerow([image_path, *mismatch_texts])
+
+    # Append resolved mismatches to the correct CSV file
+    with open(correct_csv_file_path, 'a', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerows(resolved_mismatches)
+
+    # Save remaining mismatches to the JSON file
+    with open(mismatch_path, 'w') as file:
+        json.dump(unresolved_mismatches, file, indent=4)
+
+    return unresolved_mismatches

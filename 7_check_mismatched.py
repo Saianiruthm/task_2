@@ -1,4 +1,4 @@
-from main import compare_snapshots_and_save_correct_csv
+from main import compare_and_resolve_mismatches
 from label_studio_sdk import Client,Project
 import time
 import os
@@ -27,9 +27,8 @@ project_2.export_tasks( export_type= 'JSON_MIN',download_all_tasks = False,expor
 
 
 # Call the function with the appropriate file paths
-mismatched_paths = compare_snapshots_and_save_correct_csv(
+mismatched_paths = compare_and_resolve_mismatches
     'project_1.json',
-    'project_2.json',
     'correct_annotations.csv',
     'incorrect_annotations.csv',
     'mismatched.json'
@@ -37,4 +36,5 @@ mismatched_paths = compare_snapshots_and_save_correct_csv(
 
 # Output the mismatched paths for verification
 print(f"Mismatched file paths: {mismatched_paths}")
+
 
