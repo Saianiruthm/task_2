@@ -1,0 +1,72 @@
+[
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_0.png",
+    "id": 95,
+    "transcription": "REPUBLIC",
+    "annotator": 1,
+    "annotation_id": 102,
+    "created_at": "2024-02-20T07:26:34.636715Z",
+    "updated_at": "2024-02-20T07:26:34.636715Z",
+    "lead_time": 5.733
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_1.png",
+    "id": 96,
+    "transcription": "OF",
+    "annotator": 1,
+    "annotation_id": 103,
+    "created_at": "2024-02-20T07:26:42.956142Z",
+    "updated_at": "2024-02-20T07:26:42.956142Z",
+    "lead_time": 7.008
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_2.png",
+    "id": 97,
+    "transcription": "THE",
+    "annotator": 1,
+    "annotation_id": 104,
+    "created_at": "2024-02-20T07:26:52.436172Z",
+    "updated_at": "2024-02-20T07:26:52.444435Z",
+    "lead_time": 8.17
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_3.png",
+    "id": 98,
+    "transcription": "PHILIPPINES",
+    "annotator": 1,
+    "annotation_id": 105,
+    "created_at": "2024-02-20T07:27:03.797107Z",
+    "updated_at": "2024-02-20T07:27:03.797107Z",
+    "lead_time": 10.03
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_4.png",
+    "id": 99,
+    "transcription": "UNIFIED",
+    "annotator": 1,
+    "annotation_id": 106,
+    "created_at": "2024-02-20T07:30:11.643470Z",
+    "updated_at": "2024-02-20T07:30:11.643470Z",
+    "lead_time": 186.503
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_5.png",
+    "id": 100,
+    "transcription": "Multi-Purpose",
+    "annotator": 1,
+    "annotation_id": 107,
+    "created_at": "2024-02-20T07:30:19.366490Z",
+    "updated_at": "2024-02-20T07:30:19.366490Z",
+    "lead_time": 6.262
+  },
+  {
+    "image": "\/data\/local-files\/?d=Project\/Input_Images\/crop_6.png",
+    "id": 101,
+    "transcription": "ID",
+    "annotator": 1,
+    "annotation_id": 108,
+    "created_at": "2024-02-20T07:30:31.376758Z",
+    "updated_at": "2024-02-20T07:30:31.376758Z",
+    "lead_time": 10.711
+  }
+]
