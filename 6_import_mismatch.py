@@ -4,8 +4,8 @@ import time
 import os
 
 # Define the Label Studio API keys and URLs for both annotators
-API_KEY_ANNOTATOR_1 = '68a3fcdd73a7801d83b42e29920cdbf90af50dfd'
-API_KEY_ANNOTATOR_2 = '95e9a6c97d84ed0520f65fc3af3972d628c6986f'
+API_KEY_ANNOTATOR_1 = 'API_1'
+API_KEY_ANNOTATOR_2 = 'API_2'
 LABEL_STUDIO_URL = 'http://localhost:8080/'
 
 # Initialize the Label Studio clients for both annotators
