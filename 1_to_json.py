@@ -1,7 +1,8 @@
 import os
 import json
+import shutil
 
-def create_json_for_images(source_folder, target_folder):
+def create_json_for_images(source_folder, target_folder,Project_name):
   """
   Creates a JSON file in a separate folder for each image in a specified source folder.
 
@@ -21,7 +22,7 @@ def create_json_for_images(source_folder, target_folder):
       json_data = {}
 
       # Add image path to the data (you can add more information if needed)
-      json_data["image"] = r"/data/local-files/?d=Project/Input_Images/"+filename
+      json_data["image"] = r"/data/local-files/?d="+ Project_name+r"/Input_Images/"+filename
 
       # Create the JSON file
       s = image_name + ".json"
@@ -31,8 +32,19 @@ def create_json_for_images(source_folder, target_folder):
 
       print(f"Created JSON file for {filename} in {target_folder}")
 
-# Replace these with your actual folder paths
-source_folder = r"E:\task_2\Input_images"
-target_folder = r"E:\task_2\json_file"
 
-create_json_for_images(source_folder, target_folder)
+def create_directory(path):
+    try:
+        os.makedirs(path)
+        print(f"Directory '{path}' created successfully")
+    except FileExistsError:
+        print(f"Directory '{path}' already exists")
+
+
+def copy_directory(src_path, dst_path):
+    try:
+        shutil.copytree(src_path, dst_path)
+        print(f"Directory '{src_path}' copied to '{dst_path}' successfully")
+    except FileExistsError:
+        print(f"Directory '{dst_path}' already exists")
+
