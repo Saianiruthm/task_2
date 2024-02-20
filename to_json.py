@@ -33,8 +33,11 @@ def create_json_for_images(source_folder, target_folder,Project_name):
       print(f"Created JSON file for {filename} in {target_folder}")
 
 
+import os
+import shutil
+
 def create_directory(path):
-     """
+    """
     Creates a new directory at the specified path.
 
     Args:
@@ -43,11 +46,14 @@ def create_directory(path):
     Raises:
         OSError: If there's an error creating the directory (e.g., permission issues).
     """
+
     try:
         os.makedirs(path)
         print(f"Directory '{path}' created successfully")
     except FileExistsError:
         print(f"Directory '{path}' already exists")
+    except OSError as err:
+        print(f"Error creating directory '{path}': {err}")
 
 
 def copy_directory(src_path, dst_path):
@@ -61,9 +67,12 @@ def copy_directory(src_path, dst_path):
     Raises:
         OSError: If there's an error copying the directory or its contents.
     """
+
     try:
         shutil.copytree(src_path, dst_path)
         print(f"Directory '{src_path}' copied to '{dst_path}' successfully")
     except FileExistsError:
         print(f"Directory '{dst_path}' already exists")
+    except OSError as err:
+        print(f"Error copying directory '{src_path}' to '{dst_path}': {err}")
 

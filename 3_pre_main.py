@@ -4,7 +4,7 @@ from label_studio_sdk import Client
 import time
 import os
 from main import *
-from 1_to_json import *
+from to_json import *
 import shutil
 
 
@@ -14,12 +14,13 @@ name = input("Enter name of the project: ")
 source_folder = r"E:\task_2\Input_images"
 target_folder = r"E:\task_2\json_file"
 create_json_for_images(source_folder, target_folder,name)
-path = r'C:/data/media/'+ name
-create_directory(path)
-dst_path = r'C:/data/media/'+ name+r'/Input_Images'
-create_directory(dst_path)
+path_1 = r'C:\data\media'
+path_2 = os.path.join(path_1, name)
+create_directory(path_1)
+dst_path = os.path.join(path_2, r'Input_Images')
 copy_directory(source_folder, dst_path)
 
+#path = r'C:/data/media/Project/'
 #For community users:
 # Define the Label Studio API keys and URLs for both annotators
 API_KEY_ANNOTATOR_1 = '68a3fcdd73a7801d83b42e29920cdbf90af50dfd'
@@ -47,9 +48,9 @@ project_2 = create_project(client_2,project_name_2)
 store_id("ids.txt",project_1.id,project_2.id)
 
 #Create Storage
-title = 'Directory'
-storage_info_1 = register_local_folder(API_KEY_ANNOTATOR_1, project_1, path, title)
-storage_info_2 = register_local_folder(API_KEY_ANNOTATOR_2, project_2, path, title)
+title = "Storage"
+storage_info_1 = register_local_folder(API_KEY_ANNOTATOR_1, project_1, path_2, title)
+storage_info_2 = register_local_folder(API_KEY_ANNOTATOR_2, project_2, path_2, title)
 storage_id_1 = storage_info_1['id']
 storage_id_2 = storage_info_2['id']
 
