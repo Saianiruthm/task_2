@@ -4,8 +4,8 @@ import time
 import os
 
 # Define the Label Studio API keys and URLs for both annotators
-API_KEY_ANNOTATOR_1 = 'API key'
-API_KEY_ANNOTATOR_2 = 'API Key'
+API_KEY_ANNOTATOR_1 = 'API'
+API_KEY_ANNOTATOR_2 = 'API'
 LABEL_STUDIO_URL = 'http://localhost:8080/'
 
 # Initialize the Label Studio clients for both annotators
@@ -31,7 +31,7 @@ mismatched_paths = compare_snapshots_and_save_correct_csv(
     'project_1.json',
     'project_2.json',
     'correct_annotations.csv',
-    'incorrect_annotations.csv',
+    'incorrect_annotations.json',
     'mismatched.json'
 )
 

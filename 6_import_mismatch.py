@@ -4,8 +4,8 @@ import time
 import os
 
 # Define the Label Studio API keys and URLs for both annotators
-API_KEY_ANNOTATOR_1 = 'API_1'
-API_KEY_ANNOTATOR_2 = 'API_2'
+API_KEY_ANNOTATOR_1 = 'API'
+API_KEY_ANNOTATOR_2 = 'API'
 LABEL_STUDIO_URL = 'http://localhost:8080/'
 
 # Initialize the Label Studio clients for both annotators
@@ -28,7 +28,7 @@ json_file_path = r"E:\task_2\json_mismatch_file"
 
 #Import Tasks
 import_tasks_from_json(project_1, json_file_path)
-import_tasks_from_json(project_2, json_file_path)
+#import_tasks_from_json(project_2, json_file_path)
 
 
 

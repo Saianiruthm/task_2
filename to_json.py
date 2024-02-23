@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import glob
 
 def create_json_for_images(source_folder, target_folder,Project_name):
   """
@@ -10,7 +11,8 @@ def create_json_for_images(source_folder, target_folder,Project_name):
       source_folder: The path to the folder containing the images.
       target_folder: The path to the folder where the JSON files will be created.
   """
-
+  
+  delete_files_in_folder(target_folder)
   for filename in os.listdir(source_folder):
     if filename.endswith((".jpg", ".jpeg", ".png")):
       image_path = os.path.join(source_folder, filename)
@@ -22,7 +24,7 @@ def create_json_for_images(source_folder, target_folder,Project_name):
       json_data = {}
 
       # Add image path to the data (you can add more information if needed)
-      json_data["image"] = r"/data/local-files/?d="+ Project_name+r"/Input_Images/"+filename
+      json_data["image"] = r"/data/local-files/?d=Project/"+ Project_name+r"/Input_Images/"+filename
 
       # Create the JSON file
       s = image_name + ".json"
@@ -32,9 +34,6 @@ def create_json_for_images(source_folder, target_folder,Project_name):
 
       print(f"Created JSON file for {filename} in {target_folder}")
 
-
-import os
-import shutil
 
 def create_directory(path):
     """
@@ -75,4 +74,20 @@ def copy_directory(src_path, dst_path):
         print(f"Directory '{dst_path}' already exists")
     except OSError as err:
         print(f"Error copying directory '{src_path}' to '{dst_path}': {err}")
+
+
+def delete_files_in_folder(directory_path):
+    # Check if the directory exists
+    if not os.path.exists(directory_path):
+        print("The directory does not exist")
+        return
+
+    # Use glob to match all files in the directory
+    files = glob.glob(directory_path + '/*')
+
+    for file in files:
+        # Use os.remove to delete each file
+        os.remove(file)
+
+    print("All files in the directory have been deleted")
 

@@ -1,10 +1,12 @@
 import os
 import json
+from to_json import delete_files_in_folder
 
 input_json = 'mismatched.json'
 with open(input_json) as inp:
     tasks = json.load(inp)
 target = r"E:\task_2\json_mismatch_file"
+delete_files_in_folder(target)
 
 for i,v in enumerate(tasks):
     p = "task_"+ str(i)
